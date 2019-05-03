@@ -32,18 +32,23 @@ class Table extends React.Component {
 
   handleClick(title, key) {
     if (this.state.activeColumn === key) {
+
       let toggle = !this.state.sortDirection;
       this.setState({
         sortDirection: toggle,
         activeColumn: key,
-        rows: sortByColumn(this.state.tableData, title, toggle)
+        rows: sortByColumn(this.state.tableData, title, this.state.sortDirection)
       });
     } else {
+      let toggle = true;
       this.setState({
         activeColumn: key,
-        rows: sortByColumn(this.state.tableData, title, false)
+        sortDirection: toggle,
+        rows: sortByColumn(this.state.tableData, title, !toggle)
+
       });
     }
+
   }
 
   render() {
@@ -51,7 +56,7 @@ class Table extends React.Component {
       <div className="wrapper">
       <h1>Bem vindo à melhor tabela ordenável e customizável do planeta!</h1>
       <div className="restyleDiv">
-        <strong>Personalize o estilo da tabela!</strong>
+        <strong>Personalize o estilo da tabela</strong>
         <h2>Cores para o cabeçalho: </h2>
         <button style={{color: 'white' ,backgroundColor:  'darkblue'      }}  onClick={()=> this.setState({headerColor: 'darkblue'})}>Darkblue</button>
         <button style={{color: 'white' ,backgroundColor:  'darkcyan'      }}  onClick={()=> this.setState({headerColor: 'darkcyan'})}>Darkcyan</button>
@@ -60,7 +65,6 @@ class Table extends React.Component {
         <button style={{color: 'white' ,backgroundColor:  'darkmagenta'      }}  onClick={()=> this.setState({headerColor: 'darkmagenta'})}>Darkmagenta</button>
         <button style={{color: 'white' ,backgroundColor:  'darkorange'      }}  onClick={()=> this.setState({headerColor: 'darkorange'})}>Darkorange</button>
         <button style={{color: 'white' ,backgroundColor:  'darkorchid'      }}  onClick={()=> this.setState({headerColor: 'darkorchid'})}>Darkorchid</button>
-        <button style={{color: 'white' ,backgroundColor:  'darkred'      }}  onClick={()=> this.setState({headerColor: 'darkred'})}>DarkRed</button>
         
 
         <h2>Cores para corpo da tabela:</h2>      
@@ -82,11 +86,7 @@ class Table extends React.Component {
                   return (
                     <th style={{backgroundColor: this.state.headerColor}}  key={key} onClick={() => this.handleClick(title, key)}>
                       {title.charAt(0).toUpperCase() + title.slice(1)}
-                      {this.state.activeColumn === key
-                        ? this.state.sortDirection
-                          ? " ↓"
-                          : " ↑"
-                        : ""}
+                      {this.state.activeColumn === key ? this.state.sortDirection ? " ↑" : " ↓" : ""}
                     </th>
                   );
                 })}
