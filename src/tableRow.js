@@ -82,7 +82,8 @@ class Table extends React.Component {
           <table className="Tabela" cellspacing="0">
             <thead>
               <tr>
-                {Object.keys(this.state.tableData[0]).map((title, key) => {
+                {Object.keys(this.state.tableData[0])
+                .map((title, key) => {
                   return (
                     <th style={{backgroundColor: this.state.headerColor}}  key={key} onClick={() => this.handleClick(title, key)}>
                       {title.charAt(0).toUpperCase() + title.slice(1)}
